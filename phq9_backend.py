@@ -441,7 +441,7 @@ def submit_phq9():
                 return jsonify({'success': False, 'error': f'Campo requerido: {field}'}), 400
         
         # Calcular puntaje total
-        total_score = sum(data['responses'][f'q{i}'] for i in range(1, 10))
+        total_score = sum(int(data['responses'][f'q{i}']) for i in range(1, 10))
         
         # Preparar datos para almacenamiento
         current_datetime = datetime.now()
