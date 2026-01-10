@@ -250,42 +250,144 @@ function start() {
 
 @app.route("/phq9", methods=["GET"])
 def phq9_form():
-    return render_template_string("""
+    html = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>PHQ-9</title>
+<title>PHQ-9 – Cuestionario de Salud del Paciente</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 20px; }
-.item { margin-bottom: 15px; }
+body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+h2 { color: #2c3e50; }
+.item { margin-bottom: 18px; }
+select { width: 100%; padding: 6px; }
 button { padding: 10px 20px; font-size: 16px; }
+.note { margin-top: 25px; font-size: 14px; color: #555; }
 </style>
 </head>
 <body>
 
 <h2>Cuestionario PHQ-9</h2>
 
-<label>Correo electrónico:</label><br>
-<input type="email" id="email" required><br><br>
+<p>
+<strong>Durante las últimas dos semanas, ¿con qué frecuencia ha tenido molestias debido a los siguientes problemas?</strong>
+</p>
+
+<label><strong>Correo electrónico:</strong></label><br>
+<input type="email" id="email" required style="width:100%; padding:6px;"><br><br>
 
 <form id="phq9Form">
-{% for i in range(1, 10) %}
+
 <div class="item">
-<label><strong>{{ i }}.</strong> Ítem {{ i }}</label><br>
-<select id="q{{ i }}" required>
+<p><strong>1.</strong> Poco interés o placer en hacer cosas</p>
+<select id="q1" required>
 <option value="">Seleccione</option>
-<option value="0">0 - Nunca</option>
-<option value="1">1 - Varios días</option>
-<option value="2">2 - Más de la mitad de los días</option>
-<option value="3">3 - Casi todos los días</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
 </select>
 </div>
-{% endfor %}
+
+<div class="item">
+<p><strong>2.</strong> Sentirse decaído(a), deprimido(a) o sin esperanzas</p>
+<select id="q2" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
+
+<div class="item">
+<p><strong>3.</strong> Dificultad para dormir o permanecer dormido(a), o dormir demasiado</p>
+<select id="q3" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
+
+<div class="item">
+<p><strong>4.</strong> Sentirse cansado(a) o con poca energía</p>
+<select id="q4" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
+
+<div class="item">
+<p><strong>5.</strong> Poco apetito o comer en exceso</p>
+<select id="q5" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
+
+<div class="item">
+<p><strong>6.</strong> Sentirse mal consigo mismo(a), o que es un fracaso o que ha quedado mal consigo mismo(a) o con su familia</p>
+<select id="q6" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
+
+<div class="item">
+<p><strong>7.</strong> Dificultad para concentrarse en cosas, tales como leer el periódico o ver televisión</p>
+<select id="q7" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
+
+<div class="item">
+<p><strong>8.</strong> Moverse o hablar tan lento que otras personas lo han notado; o lo contrario — estar tan inquieto(a) o agitado(a) que se ha estado moviendo mucho más de lo normal</p>
+<select id="q8" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
+
+<div class="item">
+<p><strong>9.</strong> Pensamientos de que estaría mejor muerto(a) o de hacerse daño de alguna manera</p>
+<select id="q9" required>
+<option value="">Seleccione</option>
+<option value="0">Nunca</option>
+<option value="1">Varios días</option>
+<option value="2">Más de la mitad de los días</option>
+<option value="3">Casi todos los días</option>
+</select>
+</div>
 
 <button type="submit">Enviar cuestionario</button>
+
 </form>
+
+<div class="note">
+<p>
+Este cuestionario es una herramienta de apoyo clínico y no establece un diagnóstico.
+Los resultados serán evaluados e interpretados por su médico psiquiatra.
+</p>
+</div>
 
 <script>
 document.getElementById("phq9Form").addEventListener("submit", async function(e) {
@@ -293,12 +395,18 @@ document.getElementById("phq9Form").addEventListener("submit", async function(e)
 
     const data = {
         email: document.getElementById("email").value,
-        responses: {}
+        responses: {
+            q1: document.getElementById("q1").value,
+            q2: document.getElementById("q2").value,
+            q3: document.getElementById("q3").value,
+            q4: document.getElementById("q4").value,
+            q5: document.getElementById("q5").value,
+            q6: document.getElementById("q6").value,
+            q7: document.getElementById("q7").value,
+            q8: document.getElementById("q8").value,
+            q9: document.getElementById("q9").value
+        }
     };
-
-    for (let i = 1; i <= 9; i++) {
-        data.responses["q" + i] = document.getElementById("q" + i).value;
-    }
 
     const res = await fetch("/api/submit-phq9", {
         method: "POST",
@@ -317,7 +425,8 @@ document.getElementById("phq9Form").addEventListener("submit", async function(e)
 
 </body>
 </html>
-""")
+"""
+    return render_template_string(html)
 
 @app.route('/api/submit-phq9', methods=['POST'])
 def submit_phq9():
