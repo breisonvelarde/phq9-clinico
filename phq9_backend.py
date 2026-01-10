@@ -248,7 +248,6 @@ function start() {
 </html>
 """)
 
-
 @app.route('/api/submit-phq9', methods=['POST'])
 def submit_phq9():
     """Endpoint para recibir y procesar respuestas PHQ-9"""
