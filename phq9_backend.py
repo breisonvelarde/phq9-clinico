@@ -481,21 +481,20 @@ def submit_phq9():
         # Guardar en base de datos
         save_phq9_response(submission_data)
         
-        # Enviar correo al médico
-        email_sent = send_email_to_doctor(submission_data)
-        
-        if email_sent:
-            return jsonify({
-                'success': True,
-                'message': 'Cuestionario enviado exitosamente',
-                'measurement_number': measurement_number
-            })
-        else:
-            return jsonify({
-                'success': False,
-                'error': 'Error enviando notificación al médico'
-            }), 500
-            
+        # Enviar correo al médico (no bloqueante)
+        try:
+            email_sent = send_email_to_doctor(submission_data)
+        except Exception as e:
+            logger.error(f"Fallo en envío de correo: {str(e)}")
+            email_sent = False
+
+        return jsonify({
+            'success': True,
+            'message': 'Cuestionario enviado exitosamente',
+            'measurement_number': measurement_number,
+            'email_notification': email_sent
+        })
+                
     except Exception as e:
         logger.error(f"Error procesando PHQ-9: {str(e)}")
         return jsonify({'success': False, 'error': 'Error interno del servidor'}), 500
