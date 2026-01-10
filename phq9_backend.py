@@ -7,7 +7,7 @@ Sistema de almacenamiento y envío de correos para seguimiento longitudinal
 from flask import Flask, request, jsonify, render_template_string
 from flask_cors import CORS
 import smtplib
-from email.mime.text import MimeText
+from email.mime.text import MIMEText
 from email.mime.multipart import MimeMultipart
 import json
 import os
