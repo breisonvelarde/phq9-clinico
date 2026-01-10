@@ -175,7 +175,7 @@ RESPUESTAS ACTUALES:
 9. Pensamientos de muerte/autolesión: {get_response_text(data['responses']['q9'])}
 
 IMPACTO FUNCIONAL:
-- Dificultad para actividades diarias: {get_difficulty_text(data['responses']['difficulty'])}
+- Dificultad para actividades diarias: {get_difficulty_text(data.get('difficulty', 0))}
 {trend_text}
 
 --- Fin del reporte ---
