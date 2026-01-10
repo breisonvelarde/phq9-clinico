@@ -198,10 +198,56 @@ Sistema PHQ-9 Clínico - Dr. Breison Velarde
         logger.error(f"Error enviando correo: {str(e)}")
         return False
 
-@app.route('/')
+@app.route("/", methods=["GET"])
 def index():
-    """Página principal con el formulario PHQ-9"""
-    return render_template_string(open('phq9_clinico_real.html', 'r', encoding='utf-8').read())
+    return render_template_string("""
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PHQ-9 – Evaluación de síntomas depresivos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 20px; }
+        h1 { color: #2c3e50; }
+        .consent { background: #f4f6f7; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        button { padding: 10px 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+<h1>Cuestionario PHQ-9</h1>
+
+<div class="consent">
+    <p>
+        Este cuestionario es una herramienta de tamizaje clínico y no establece
+        un diagnóstico por sí solo. Los resultados serán evaluados e interpretados
+        por el médico psiquiatra <strong>Breison Velarde</strong>.
+    </p>
+    <label>
+        <input type="checkbox" id="consent"> He leído y acepto el consentimiento informado
+    </label>
+</div>
+
+<button onclick="start()" disabled id="startBtn">Iniciar cuestionario</button>
+
+<script>
+const cb = document.getElementById("consent");
+const btn = document.getElementById("startBtn");
+
+cb.addEventListener("change", () => {
+    btn.disabled = !cb.checked;
+});
+
+function start() {
+    window.location.href = "/phq9";
+}
+</script>
+
+</body>
+</html>
+""")
+
 
 @app.route('/api/submit-phq9', methods=['POST'])
 def submit_phq9():
