@@ -23,6 +23,8 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)
 
+init_database()
+
 # Configuración de correo
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
