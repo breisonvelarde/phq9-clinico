@@ -137,7 +137,7 @@ def send_email_to_doctor(data):
     """Enviar correo electrónico al médico con los resultados"""
     try:
         # Crear mensaje
-        msg = MimeMultipart()
+        msg = MIMEMultipart()
         msg['From'] = EMAIL_USER
         msg['To'] = DOCTOR_EMAIL
         msg['Subject'] = f"PHQ-9 #{data['measurement_number']} - {data['email']}"
