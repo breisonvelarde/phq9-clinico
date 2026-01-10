@@ -200,6 +200,77 @@ Sistema PHQ-9 Clínico - Dr. Breison Velarde
 
 @app.route("/", methods=["GET"])
 def index():
+    @app.route("/phq9", methods=["GET"])
+def phq9_form():
+    return render_template_string("""
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>PHQ-9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 20px; }
+.item { margin-bottom: 15px; }
+button { padding: 10px 20px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<h2>Cuestionario PHQ-9</h2>
+
+<label>Correo electrónico:</label><br>
+<input type="email" id="email" required><br><br>
+
+<form id="phq9Form">
+{% for i in range(1, 10) %}
+<div class="item">
+<label><strong>{{ i }}.</strong> Ítem {{ i }}</label><br>
+<select id="q{{ i }}" required>
+<option value="">Seleccione</option>
+<option value="0">0 - Nunca</option>
+<option value="1">1 - Varios días</option>
+<option value="2">2 - Más de la mitad de los días</option>
+<option value="3">3 - Casi todos los días</option>
+</select>
+</div>
+{% endfor %}
+
+<button type="submit">Enviar cuestionario</button>
+</form>
+
+<script>
+document.getElementById("phq9Form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const data = {
+        email: document.getElementById("email").value,
+        responses: {}
+    };
+
+    for (let i = 1; i <= 9; i++) {
+        data.responses["q" + i] = document.getElementById("q" + i).value;
+    }
+
+    const res = await fetch("/api/submit-phq9", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    if (res.ok) {
+        alert("Cuestionario enviado correctamente. Los resultados serán revisados por su médico.");
+        window.location.href = "/";
+    } else {
+        alert("Ocurrió un error al enviar el cuestionario.");
+    }
+});
+</script>
+
+</body>
+</html>
+""")
+
     return render_template_string("""
 <!DOCTYPE html>
 <html lang="es">
