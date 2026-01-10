@@ -380,6 +380,21 @@ button { padding: 10px 20px; font-size: 16px; }
 </select>
 </div>
 
+<hr>
+
+<div class="item">
+<p><strong>Dificultad funcional:</strong><br>
+¿En qué medida estos problemas han dificultado su trabajo, el cuidado de su hogar o llevarse bien con otras personas?
+</p>
+<select id="difficulty" required>
+<option value="">Seleccione</option>
+<option value="0">Nada difícil</option>
+<option value="1">Algo difícil</option>
+<option value="2">Muy difícil</option>
+<option value="3">Extremadamente difícil</option>
+</select>
+</div>
+
 <button type="submit">Enviar cuestionario</button>
 
 </form>
