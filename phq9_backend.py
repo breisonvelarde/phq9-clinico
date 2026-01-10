@@ -200,7 +200,6 @@ Sistema PHQ-9 Clínico - Dr. Breison Velarde
 
 @app.route("/", methods=["GET"])
 def index():
-    @app.route("/phq9", methods=["GET"])
     return render_template_string("""
 <!DOCTYPE html>
 <html lang="es">
