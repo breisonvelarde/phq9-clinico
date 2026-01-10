@@ -457,7 +457,9 @@ def submit_phq9():
         for field in required_fields:
             if field not in data:
                 return jsonify({'success': False, 'error': f'Campo requerido: {field}'}), 400
-        
+
+        difficulty = int(data.get('difficulty', 0))
+
         # Calcular puntaje total
         total_score = sum(int(data['responses'][f'q{i}']) for i in range(1, 10))
         
@@ -466,14 +468,15 @@ def submit_phq9():
         measurement_number = get_measurement_number(data['email'])
         
         submission_data = {
-            'email': data['email'],
-            'timestamp': current_datetime.isoformat(),
-            'date': current_datetime.strftime('%d/%m/%Y'),
-            'time': current_datetime.strftime('%H:%M:%S'),
-            'responses': data['responses'],
-            'total_score': total_score,
-            'measurement_number': measurement_number
-        }
+    'email': data['email'],
+    'timestamp': current_datetime.isoformat(),
+    'date': current_datetime.strftime('%d/%m/%Y'),
+    'time': current_datetime.strftime('%H:%M:%S'),
+    'responses': data['responses'],
+    'difficulty': difficulty,
+    'total_score': total_score,
+    'measurement_number': measurement_number
+}
         
         # Guardar en base de datos
         save_phq9_response(submission_data)
