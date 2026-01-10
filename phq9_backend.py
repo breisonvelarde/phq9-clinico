@@ -115,7 +115,7 @@ def save_phq9_response(data):
         data['responses']['q7'],
         data['responses']['q8'],
         data['responses']['q9'],
-        data['responses']['difficulty'],
+        data['difficulty'],
         data['total_score']
     ))
     
