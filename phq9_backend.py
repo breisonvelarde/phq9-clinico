@@ -183,7 +183,7 @@ Este reporte es confidencial y destinado exclusivamente para revisión clínica.
 Sistema PHQ-9 Clínico - Dr. Breison Velarde
 """
         
-        msg.attach(MimeText(email_content, 'plain', 'utf-8'))
+        msg.attach(MIMEText(email_content, 'plain', 'utf-8'))
         
         # Enviar correo
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
