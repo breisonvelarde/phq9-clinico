@@ -23,8 +23,6 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)
 
-init_database()
-
 # Configuración de correo
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
@@ -64,6 +62,8 @@ def init_database():
     conn.commit()
     conn.close()
     logger.info("Base de datos inicializada correctamente")
+
+init_database()
 
 def get_measurement_number(patient_email):
     """Obtener el número de medición para un paciente"""
