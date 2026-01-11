@@ -481,10 +481,16 @@ def submit_phq9():
         # Guardar en base de datos
         save_phq9_response(submission_data)
         
+        # Enviar correo al médico (NO crítico para el sistema)
+        try:
+            send_email_to_doctor(submission_data)
+        except Exception as e:
+            logger.error(f"Error enviando correo: {e}")
+
         return jsonify({
             'success': True,
             'message': 'Cuestionario enviado exitosamente',
-            'measurement_number': measurement_number,
+            'measurement_number': measurement_number
         })
                 
     except Exception as e:
