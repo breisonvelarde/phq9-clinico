@@ -485,7 +485,6 @@ def submit_phq9():
             'success': True,
             'message': 'Cuestionario enviado exitosamente',
             'measurement_number': measurement_number,
-            'email_notification': email_sent
         })
                 
     except Exception as e:
