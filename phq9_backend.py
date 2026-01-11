@@ -123,6 +123,26 @@ def save_phq9_response(data):
     conn.close()
     logger.info(f"Respuesta guardada para paciente: {data['email']}")
 
+def get_all_phq9_responses():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT 
+            patient_email,
+            timestamp,
+            measurement_number,
+            total_score,
+            q9
+        FROM phq9_responses
+        ORDER BY timestamp DESC
+    """)
+
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
 def get_response_text(value):
     """Convertir valor numérico a texto descriptivo"""
     texts = ['Para nada', 'Varios días', 'Más de la mitad de los días', 'Casi todos los días']
