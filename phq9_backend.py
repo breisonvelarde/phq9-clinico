@@ -511,6 +511,66 @@ def submit_phq9():
         logger.error(f"Error procesando PHQ-9: {str(e)}")
         return jsonify({'success': False, 'error': 'Error interno del servidor'}), 500
 
+@app.route("/admin", methods=["GET"])
+def admin_dashboard():
+    data = get_all_phq9_responses()
+
+    html = """
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard PHQ-9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial, sans-serif; max-width: 1000px; margin: auto; padding: 20px; }
+h2 { color: #2c3e50; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+th { background-color: #f2f2f2; }
+.alert { background-color: #f8d7da; color: #721c24; }
+</style>
+</head>
+<body>
+
+<h2>Dashboard Clínico – PHQ-9</h2>
+
+<table>
+<tr>
+    <th>Fecha / Hora</th>
+    <th>Correo</th>
+    <th>Medición</th>
+    <th>Puntaje PHQ-9</th>
+    <th>Alerta</th>
+</tr>
+"""
+
+    for row in data:
+        alert = "⚠️ Ítem 9 positivo" if int(row["q9"]) > 0 else ""
+        alert_class = "alert" if int(row["q9"]) > 0 else ""
+
+        html += f"""
+<tr class="{alert_class}">
+    <td>{row['timestamp']}</td>
+    <td>{row['patient_email']}</td>
+    <td>#{row['measurement_number']}</td>
+    <td>{row['total_score']}</td>
+    <td>{alert}</td>
+</tr>
+"""
+
+    html += """
+</table>
+
+<p style="margin-top:20px; font-size:14px; color:#555;">
+Uso clínico exclusivo. Información confidencial.
+</p>
+
+</body>
+</html>
+"""
+    return render_template_string(html)
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Endpoint de verificación de salud del sistema"""
